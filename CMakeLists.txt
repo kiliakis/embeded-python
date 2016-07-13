@@ -12,7 +12,7 @@ if(!COMPILER_HAS_CXX11)
 	message(FATAL_ERROR "ERROR: Compiler is lacking support for c++11")
 endif()
 
-set(ENV{PYTHONPATH} "$ENV{PYTHONPATH} ${PROJECT_SOURCE_DIR}/python")
+# set(ENV{PYTHONPATH} "$ENV{PYTHONPATH} ${PROJECT_SOURCE_DIR}/python")
 
 include_directories(include
    $ENV{HOME}/work/anaconda2/include/python2.7

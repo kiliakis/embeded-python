@@ -43,6 +43,38 @@ void python::print(const std::string &text)
 
 }
 
+void python::add_one(int *array, const int length)
+{
+   // Both approaches are working, the first is using PyArrayObject,
+   // and the second refular PyObjects
+
+   int dims[1] = {length};
+   auto pArray = (PyArrayObject *) PyArray_FromDimsAndData(1, dims, NPY_INT,
+                 reinterpret_cast<char *>(array));
+
+   // npy_intp dims[1] = {length};
+   // auto pArray = PyArray_SimpleNewFromData(1, dims, NPY_INT,
+   //                                         reinterpret_cast<void *>(array));
+
+   auto pModule = PyImport_ImportModule("libpython");
+   assert(pModule);
+
+   // pFunc is also a borrowed reference
+   auto pFunc = PyObject_GetAttrString(pModule, "add_one");
+   assert(pFunc);
+
+   if (PyCallable_Check(pFunc)) {
+      auto ret = PyObject_CallFunctionObjArgs(pFunc, pArray, NULL);
+      assert(ret);
+      // auto p = (int *) PyArray_DATA(pArray);
+   } else {
+      PyErr_Print();
+   }
+
+   // Clean up
+   Py_DECREF(pModule);
+
+}
 
 int python::accumulate(int *array, const int length)
 {
@@ -140,7 +172,7 @@ std::vector<int> python::where_bigger_than(double *array, const int length, doub
 
    auto np_array = (PyArrayObject *)(ret);
    int len = PyArray_SHAPE(np_array)[0];
-   result = new long int[len];
+   // result = new long int[len];
    result = reinterpret_cast<long int *>(PyArray_DATA(np_array));
 
    // Clean up
@@ -180,7 +212,7 @@ std::vector<int> python::where_less_than(double *array, const int length, double
 
    auto np_array = (PyArrayObject *)(ret);
    int len = PyArray_SHAPE(np_array)[0];
-   result = new long int[len];
+   // result = new long int[len];
    result = reinterpret_cast<long int *>(PyArray_DATA(np_array));
 
    // Clean up

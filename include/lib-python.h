@@ -12,5 +12,7 @@ namespace python {
    void finalize();
    std::vector<int> where_bigger_than(double *array, const int length, double val);
    std::vector<int> where_less_than(double *array, const int length, double val);
+   void add_one(int *array, const int length);
+   
 }
 #endif /* LIB_PYTHON_H_ */

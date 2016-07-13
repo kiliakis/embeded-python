@@ -18,3 +18,9 @@ def where_less_than(list, num):
     from numpy import where, array
     a = where(array(list) < num)[0]
     return a
+
+
+def add_one(a):
+    for i in range(len(a)):
+        a[i] += 1
+    return 1
